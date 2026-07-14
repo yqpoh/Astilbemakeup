@@ -1,0 +1,1 @@
+Upload index.html directly to the root of your GitHub repository. This version is fully self-contained and does not require an assets folder. The Price List button currently opens WhatsApp to request the latest price list, so there are no broken links.
