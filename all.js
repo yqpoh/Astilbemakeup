@@ -1,0 +1,10 @@
+
+const menuButton=document.getElementById('menuButton'),menuPanel=document.getElementById('menuPanel');
+function closeMenu(){menuPanel.classList.remove('open');menuButton.setAttribute('aria-expanded','false')}
+menuButton.addEventListener('click',e=>{e.stopPropagation();const o=menuPanel.classList.toggle('open');menuButton.setAttribute('aria-expanded',String(o))}); menuPanel.addEventListener('click',e=>e.stopPropagation()); document.addEventListener('click',closeMenu);
+const mapping={'.promo-trigger':['priceModal','#promo-pricelist'],'.addons-trigger':['addonsModal','#addons-promotion'],'.signature-styles-trigger':['signatureModal','#signature-makeup-styles'],'.catalogue-trigger':['catalogueModal','#hairstyle-catalogue'],'.about-astilbe-trigger':['aboutAstilbeModal','#about-astilbe'],'.about-artist-trigger':['aboutArtistModal','#about-artist']};
+function openModal(id,hash,e){if(e)e.preventDefault();closeMenu();document.querySelectorAll('.modal.open').forEach(m=>m.classList.remove('open'));const m=document.getElementById(id);m.classList.add('open');m.setAttribute('aria-hidden','false');document.body.classList.add('modal-open');const s=m.querySelector('.scroll');if(s)s.scrollTop=0;history.replaceState(null,'',hash)}
+function closeModal(m){m.classList.remove('open');m.setAttribute('aria-hidden','true');document.body.classList.remove('modal-open');history.replaceState(null,'',location.pathname+location.search)}
+Object.entries(mapping).forEach(([sel,[id,hash]])=>document.querySelectorAll(sel).forEach(a=>a.addEventListener('click',e=>openModal(id,hash,e))));
+document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>closeModal(document.getElementById(b.dataset.close)))); document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)closeModal(m)})); document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeMenu();const m=document.querySelector('.modal.open');if(m)closeModal(m)}});
+for(const [sel,[id,hash]] of Object.entries(mapping))if(location.hash===hash)openModal(id,hash);
